@@ -29,7 +29,7 @@ class UE4
 		ProjectName		= projectName
 		EngineUBT       = "\"${workingRoot}${UBT}\""
 		EditorCMD       = "\"${workingRoot}${UE4CMD}\""
-		ProjectDir      = "\"${workingRoot}/${ProjectName}\""
+		ProjectDir      = "${workingRoot}/${ProjectName}"
 		ProjectFile     = "\"${ProjectDir}/${ProjectName}.uproject\""
 	}
 	

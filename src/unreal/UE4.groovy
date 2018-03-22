@@ -74,15 +74,16 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
 
 /** 
   * Cook the project for the given platform(s)
+  * mapsToCook - the maps we want cooked
   *	platforms - The desired cooking platform. Each platform should be seperated by a +. e.g. WindowsNoEditor+Xbox+Linux
   * additionalArguments - Optional arguments to pass to the cooker
  */ 
-def CookProject(String platforms = "WindowsNoEditor", String additionalArguments = "-fileopenlog -iterate -iterateshash -compressed")
+def CookProject(String platforms = "WindowsNoEditor", String mapsToCook, String additionalArguments = "-fileopenlog -iterate -iterateshash -compressed")
 {
-	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} ${additionalArguments}"
+	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments}"
 }
 
-// Build the project's DDC, recommend this in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache
+// Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache
 def BuildDDC()
 {
 	 bat "${EditorCMD} -run=DerivedDataCache -fill -project=${ProjectFile}"

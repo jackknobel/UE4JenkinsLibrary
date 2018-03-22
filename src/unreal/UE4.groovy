@@ -11,7 +11,7 @@ enum BuildConfiguration
 
 	String[] AsArray()
 	{
-		return Arrays.toString(this.values()).replaceAll('^.|.$', "").split(", ")
+		return Arrays.toString(unreal.BuildConfiguration.values()).replaceAll('^.|.$', "").split(", ").join("\n")
 	}
 }
 

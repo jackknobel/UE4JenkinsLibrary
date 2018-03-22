@@ -2,7 +2,7 @@
 
 package unreal;
 
-enum CompilationConfig
+enum BuildConfiguration
 {
 	DebugGame,
 	Development,
@@ -51,24 +51,24 @@ def GenerateProjectFiles()
 }
 
 /** 
-  * Compile passed in project for a given CompilationConfig type. 
-  *	compilationConfig - The compilation configuration type
+  * Compile passed in project for a given BuildConfiguration type. 
+  *	buildConfiguration - The compilation configuration type
   * editor - Whether or not this target is for editor
   * platform - the target compilation platform
   * additionalArguments
  */ 
-def CompileProject(CompilationConfig compilationConfig, boolean editor = true, String platform = "win64", String additionalArguments = "")
+def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true, String platform = "win64", String additionalArguments = "")
 {
-	compilationTarget = "${ProjectName}"
-	if(compilationConfig <= CompilationConfig.Development && editor)
+	projectTarget = "${ProjectName}"
+	if(projectTarget <= BuildConfiguration.Development && editor)
 	{
-		compilationTarget += "Editor"
+		projectTarget += "Editor"
 	}
-	bat "${EngineUBT} ${compilationTarget} ${ProjectFile}" + compilationTarget.name() + "${platform}" + additionalArguments
+	bat "${EngineUBT} ${projectTarget} ${ProjectFile} ${platform}" +  buildConfiguration.name() + additionalArguments
 }
 
 /** 
-  * Compile passed in project for a given CompilationConfig type. 
+  * Cook the project for the given platform(s)
   *	platforms - The desired cooking platform. Each platform should be seperated by a +. e.g. WindowsNoEditor+Xbox+Linux
   * additionalArguments - Optional arguments to pass to the cooker
  */ 

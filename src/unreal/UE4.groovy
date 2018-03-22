@@ -17,17 +17,18 @@ def UE4CMD	= '/Engine/Binaries/Win64/UE4Editor-Cmd.exe'
 
 // Project Specific Directories
 def ProjectName = ''
-def ProjectUBT	= ''
+def EngineUBT	= ''
 def EditorCMD	= ''
 def ProjectDir	= ''
 def ProjectFile	= ''
 
 def Initialise(String projectName, String workingRoot)
 {
-	EngineUBT          = "${workingRoot}${UBT}"
-	EditorCMD          = "${workingRoot}${UE4CMD}"
-	ProjectDir         = "${workingRoot}/${ProjectName}"
-	ProjectFile        = "${ProjectDir}/${ProjectName}.uproject"
+	ProjectName		= projectName
+	EngineUBT       = "${workingRoot}${UBT}"
+	EditorCMD       = "${workingRoot}${UE4CMD}"
+	ProjectDir      = "${workingRoot}/${ProjectName}"
+	ProjectFile     = "${ProjectDir}/${ProjectName}.uproject"
 }
 
 def GenerateProjectFiles()

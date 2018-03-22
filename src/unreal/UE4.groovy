@@ -44,28 +44,40 @@ def Initialise(String projectName, String workingRoot)
 	ProjectFile     = "\"${ProjectDir}/${ProjectName}.uproject\""
 }
 
+/* Generate Project files for the initialised project */
 def GenerateProjectFiles()
 {
 	bat "${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress"
 }
 
-// Replace with enum for config type???
-def CompileProject(CompilationConfig compilationConfig, boolean editor = true, String platform = "win64")
+/** 
+  * Compile passed in project for a given CompilationConfig type. 
+  *	compilationConfig - The compilation configuration type
+  * editor - Whether or not this target is for editor
+  * platform - the target compilation platform
+  * additionalArguments
+ */ 
+def CompileProject(CompilationConfig compilationConfig, boolean editor = true, String platform = "win64", String additionalArguments = "")
 {
 	compilationTarget = "${ProjectName}"
 	if(compilationConfig <= CompilationConfig.Development && editor)
 	{
 		compilationTarget += "Editor"
 	}
-	bat "${EngineUBT} ${compilationTarget} ${ProjectFile}" + compilationTarget.name() + "${platform}"
+	bat "${EngineUBT} ${compilationTarget} ${ProjectFile}" + compilationTarget.name() + "${platform}" + additionalArguments
 }
 
-// Each platform should be seperated by a +. e.g. WindowsNoEditor+Xbox+Linux 
+/** 
+  * Compile passed in project for a given CompilationConfig type. 
+  *	platforms - The desired cooking platform. Each platform should be seperated by a +. e.g. WindowsNoEditor+Xbox+Linux
+  * additionalArguments - Optional arguments to pass to the cooker
+ */ 
 def CookProject(String platforms = "WindowsNoEditor", String additionalArguments = "-iterate")
 {
 	 bat "${EditorCMD} -run=Cook -project=${ProjectFile} -targetplatform=${platforms} ${additionalArguments}"
 }
 
+// Build the project's DDC, recommend this in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache
 def BuildDDC()
 {
 	 bat "${EditorCMD} -run=DerivedDataCache -fill -project=${ProjectFile}"

@@ -2,16 +2,16 @@
 
 package unreal;
 
-enum CompilationConfig
-{
-	DebugGame,
-	Development,
-	Test,
-	Shipping
-}
-
 class UE4
 {
+	enum CompilationConfig
+	{
+		DebugGame,
+		Development,
+		Test,
+		Shipping
+	}
+
 	// UE4 Default Paths
 	def UBT		= '/Engine/Build/BatchFiles/Build.bat'
 	def UAT		= '/Engine/Build/BatchFiles/RunUAT.bat'

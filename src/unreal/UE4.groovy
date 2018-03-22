@@ -11,7 +11,7 @@ enum BuildConfiguration
 
 	def AsArray()
 	{
-		return Arrays.toString(BuildConfiguration.values()).replaceAll('^.|.$', "").split(", ")
+		return Arrays.toString(this.values()).replaceAll('^.|.$', "").split(", ")
 	}
 }
 

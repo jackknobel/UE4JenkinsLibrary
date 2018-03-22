@@ -32,20 +32,7 @@ def Initialise(String projectName, String workingRoot)
 
 def GenerateProjectFiles()
 {
-	pipeline 
-	{
-		agent any
-		stages
-		{
-			stage('Generate Project Files')
-			{
-				steps
-				{
-					bat "${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress"
-				}
-			}
-		}
-	}
+	bat "${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress"
 }
 
 // Replace with enum for config type???

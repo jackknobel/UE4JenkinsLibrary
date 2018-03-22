@@ -9,7 +9,7 @@ enum BuildConfiguration
 	Test,
 	Shipping
 
-	def AsArray()
+	String[] AsArray()
 	{
 		return Arrays.toString(this.values()).replaceAll('^.|.$', "").split(", ")
 	}

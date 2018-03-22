@@ -74,7 +74,7 @@ def CompileProject(CompilationConfig compilationConfig, boolean editor = true, S
  */ 
 def CookProject(String platforms = "WindowsNoEditor", String additionalArguments = "-iterate")
 {
-	 bat "${EditorCMD} {ProjectFile} -run=Cook -targetplatform=${platforms} ${additionalArguments}"
+	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} ${additionalArguments}"
 }
 
 // Build the project's DDC, recommend this in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache

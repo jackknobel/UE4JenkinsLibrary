@@ -35,7 +35,7 @@ class UE4
 	
 	def GenerateProjectFiles()
 	{
-		bat "\"${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress\""
+		shell "\"${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress\""
 	}
 	
 	// Replace with enum for config type???

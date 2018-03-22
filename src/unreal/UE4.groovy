@@ -8,6 +8,11 @@ enum BuildConfiguration
 	Development,
 	Test,
 	Shipping
+
+	def AsArray()
+	{
+		return Arrays.toString(BuildConfiguration.values()).replaceAll('^.|.$', "").split(", ")
+	}
 }
 
 // Return UBT Directory

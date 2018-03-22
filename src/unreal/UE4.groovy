@@ -64,7 +64,7 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
 	{
 		projectTarget += "Editor"
 	}
-	bat "${EngineUBT} ${projectTarget} ${ProjectFile} ${platform}" +  buildConfiguration.name() + additionalArguments
+	bat "${EngineUBT} ${projectTarget} ${ProjectFile} ${platform} " +  buildConfiguration.name() + additionalArguments
 }
 
 /** 

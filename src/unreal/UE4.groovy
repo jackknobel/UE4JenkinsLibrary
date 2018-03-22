@@ -68,8 +68,7 @@ def CookProject(String platforms = "WindowsNoEditor", String additionalArguments
 
 def BuildDDC()
 {
-	 bat "%EDITOR_CMD% -run=DerivedDataCache -fill -project=%PROJECT_FILE%"
+	 bat "${EditorCMD} -run=DerivedDataCache -fill -project=${ProjectFile}"
 }
-
 
 return this

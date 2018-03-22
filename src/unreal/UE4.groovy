@@ -32,11 +32,18 @@ def Initialise(String projectName, String workingRoot)
 
 def GenerateProjectFiles()
 {
-	stage('Generate Project Files')
+	pipeline 
 	{
-		steps
+		agent any
+		stages
 		{
-			bat "${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress"
+			stage('Generate Project Files')
+			{
+				steps
+				{
+					bat "${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress"
+				}
+			}
 		}
 	}
 }

@@ -51,11 +51,11 @@ def GenerateProjectFiles()
 }
 
 /** 
-  * Compile passed in project for a given BuildConfiguration type. 
+  * Compile passed in project for a given BuildConfiguration. 
   *	buildConfiguration - The compilation configuration type
   * editor - Whether or not this target is for editor
   * platform - the target compilation platform
-  * additionalArguments
+  * additionalArguments - Additional arguments to pass to the compiler
  */ 
 def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true, String platform = "win64", String additionalArguments = "")
 {

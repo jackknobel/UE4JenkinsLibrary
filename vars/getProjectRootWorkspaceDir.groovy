@@ -1,6 +1,6 @@
 #!/usr/bin/groovy
 
-def call() 
+def call(def script) 
 {
-    return new File("${env.WORKSPACE}").getParentFile().getPath()
+    return new File("${script.env.WORKSPACE}").getParentFile().getPath()
 }

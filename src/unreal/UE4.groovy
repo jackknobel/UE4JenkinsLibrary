@@ -34,7 +34,10 @@ def GenerateProjectFiles()
 {
 	stage('Generate Project Files')
 	{
-		bat "${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress"
+		steps
+		{
+			bat "${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress"
+		}
 	}
 }
 

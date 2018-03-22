@@ -27,15 +27,15 @@ class UE4
 	def Initialise(String projectName, String workingRoot)
 	{
 		ProjectName		= projectName
-		EngineUBT       = "${workingRoot}${UBT}"
-		EditorCMD       = "${workingRoot}${UE4CMD}"
-		ProjectDir      = "${workingRoot}/${ProjectName}"
-		ProjectFile     = "${ProjectDir}/${ProjectName}.uproject"
+		EngineUBT       = "\"${workingRoot}${UBT}\""
+		EditorCMD       = "\"${workingRoot}${UE4CMD}\""
+		ProjectDir      = "\"${workingRoot}/${ProjectName}\""
+		ProjectFile     = "\"${ProjectDir}/${ProjectName}.uproject\""
 	}
 	
 	def GenerateProjectFiles()
 	{
-		bat (String)"\"${EngineUBT}\" -projectfiles -project=\"${ProjectFile}\" -game -engine -progress"
+		bat "${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress"
 	}
 	
 	// Replace with enum for config type???

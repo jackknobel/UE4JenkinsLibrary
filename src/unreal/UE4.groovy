@@ -11,9 +11,9 @@ enum CompilationConfig
 }
 
 // UE4 Default Paths
-def UBT		= '/Engine/Build/BatchFiles/Build.bat'
-def UAT		= '/Engine/Build/BatchFiles/RunUAT.bat'
-def UE4CMD	= '/Engine/Binaries/Win64/UE4Editor-Cmd.exe'
+def UBT		= "/Engine/Build/BatchFiles/Build.bat"
+def UAT		= "/Engine/Build/BatchFiles/RunUAT.bat"
+def UE4CMD	= "/Engine/Binaries/Win64/UE4Editor-Cmd.exe"
 
 // Project Specific Directories
 def ProjectName = ''

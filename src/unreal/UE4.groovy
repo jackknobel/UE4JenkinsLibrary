@@ -10,7 +10,7 @@ enum BuildConfiguration
 	Shipping
 }
 
-String[] BuildConfigurationChoices = Arrays.toString(BuildConfiguration.values()).replaceAll('^.|.$', "").split(", ").join("\n")
+def BuildConfigurationChoices = Arrays.toString(BuildConfiguration.values()).replaceAll('^.|.$', "").split(", ").join("\n")
 
 // Return UBT Directory
 def GetUBTDirectory()

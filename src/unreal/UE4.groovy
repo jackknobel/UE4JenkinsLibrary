@@ -8,12 +8,9 @@ enum BuildConfiguration
 	Development,
 	Test,
 	Shipping
-
-	String[] AsArray()
-	{
-		return Arrays.toString(unreal.BuildConfiguration.values()).replaceAll('^.|.$', "").split(", ").join("\n")
-	}
 }
+
+String[] BuildConfigurationChoices = Arrays.toString(BuildConfiguration.values()).replaceAll('^.|.$', "").split(", ").join("\n")
 
 // Return UBT Directory
 def GetUBTDirectory()

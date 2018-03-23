@@ -95,15 +95,15 @@ def CookProject(String platforms = "WindowsNoEditor", String mapsToCook, String 
 	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments}"
 }
 
-def Deploy(String platform, BuildConfiguration buildConfiguration, boolean usePak, String additionalArguments = "")
+def Deploy(String platform, BuildConfiguration buildConfiguration, boolean usePak, String outputDir, String additionalArguments = "")
 {
 	bat "BuildCookRun ${ProjectFile} ${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() 
-	+ (usePak ? "-pak " : " ") + additionalArguments
+	+ (usePak ? "-pak " : " ") + additionalArguments + outputDir
 }
 
-def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String additionalArguments = "")
+def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String outputDir, String additionalArguments = "")
 {
-	Deploy("XboxOne", buildConfiguration, true, "-cmdline=-Messaging -device=XboxOne@" + consoleIP + " " + additionalArguments)
+	Deploy("XboxOne", buildConfiguration, true, outputDir, "-cmdline=-Messaging -device=XboxOne@" + consoleIP + " " + additionalArguments)
 }
 
 // Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache

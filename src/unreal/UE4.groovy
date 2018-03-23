@@ -56,6 +56,18 @@ def GenerateProjectFiles()
 }
 
 /** 
+  * Compile passed in project for a given BuildConfiguration.
+  *	target - The Compilation target
+  *	buildConfiguration - The compilation configuration type
+  * platform - the target compilation platform
+  * additionalArguments - Additional arguments to pass to the compiler
+ */ 
+def Compile(String target, BuildConfiguration buildConfiguration, String platform = "win64", String additionalArguments = "")
+{
+	bat "${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + additionalArguments
+}
+
+/** 
   * Compile passed in project for a given BuildConfiguration. 
   *	buildConfiguration - The compilation configuration type
   * editor - Whether or not this target is for editor
@@ -64,12 +76,12 @@ def GenerateProjectFiles()
  */ 
 def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true, String platform = "win64", String additionalArguments = "")
 {
-	projectTarget = "${ProjectName}"
+	String projectTarget = "${ProjectName}"
 	if(projectTarget <= BuildConfiguration.Development && editor)
 	{
 		projectTarget += "Editor"
 	}
-	bat "${EngineUBT} ${projectTarget} ${ProjectFile} ${platform} " +  buildConfiguration.name() + additionalArguments
+	Compile(projectTarget, buildConfiguration, platform, additionalArguments)
 }
 
 /** 
@@ -81,6 +93,17 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
 def CookProject(String platforms = "WindowsNoEditor", String mapsToCook, String additionalArguments = "-fileopenlog -iterate -iterateshash -compressed")
 {
 	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments}"
+}
+
+def Deploy(String platform, BuildConfiguration buildConfiguration, boolean usePak, String additionalArguments = "")
+{
+	bat "BuildCookRun ${ProjectFile} ${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() 
+	+ (usePak ? "-pak " : " ") + additionalArguments
+}
+
+def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String additionalArguments = "")
+{
+	Deploy("XboxOne", buildConfiguration, true, "-cmdline=-Messaging -device=XboxOne@" + consoleIP + " " + additionalArguments)
 }
 
 // Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache

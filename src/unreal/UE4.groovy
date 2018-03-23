@@ -77,7 +77,7 @@ def Compile(String target, BuildConfiguration buildConfiguration, String platfor
 def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true, String platform = "win64", String additionalArguments = "")
 {
 	String projectTarget = "${ProjectName}"
-	if(projectTarget <= BuildConfiguration.Development && editor)
+	if(buildConfiguration <= BuildConfiguration.Development && editor)
 	{
 		projectTarget += "Editor"
 	}

@@ -88,12 +88,12 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
 
 /** 
   * Cook the project for the given platform(s)
-  * mapsToCook - The maps we want cooked
   * iterative - Use iterative cooking
+  * mapsToCook - The maps we want cooked
   *	platforms - The desired cooking platform. Each platform should be seperated by a +. e.g. WindowsNoEditor+Xbox+Linux
   * additionalArguments - Optional arguments to pass to the cooker
  */ 
-def CookProject(String platforms = "WindowsNoEditor", String mapsToCook, boolean iterative = true, String additionalArguments = "-compressed")
+def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", boolean iterative = true, String additionalArguments = "-compressed")
 {
 	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments}" + iterative ? " -iterate -iterateshash" : ""
 }
@@ -124,7 +124,7 @@ def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String o
 	Deploy("XboxOne", buildConfiguration, true, outputDir, iterative, "-cmdline=-Messaging -device=XboxOne@" + consoleIP + " " + additionalArguments)
 }
 
-// Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache
+/* Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache */
 def BuildDDC()
 {
 	 bat "${EditorCMD} -run=DerivedDataCache -fill -project=${ProjectFile}"

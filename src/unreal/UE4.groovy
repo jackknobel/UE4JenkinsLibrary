@@ -35,6 +35,7 @@ def GetCMDDirectory()
 
 // Project Specific Directories
 def ProjectName = ''
+def EngineUAT	= ''
 def EngineUBT	= ''
 def EditorCMD	= ''
 def ProjectDir	= ''
@@ -43,6 +44,7 @@ def ProjectFile	= ''
 def Initialise(String projectName, String workingRoot)
 {
 	ProjectName		= projectName
+	EngineUAT		= "\"${workingRoot}" + GetUATDirectory() + "\""
 	EngineUBT       = "\"${workingRoot}" + GetUBTDirectory() + "\""
 	EditorCMD       = "\"${workingRoot}" + GetCMDDirectory() + "\""
 	ProjectDir      = "${workingRoot}/${ProjectName}"
@@ -97,7 +99,8 @@ def CookProject(String platforms = "WindowsNoEditor", String mapsToCook, String 
 
 def Deploy(String platform, BuildConfiguration buildConfiguration, boolean usePak, String outputDir, String additionalArguments = "")
 {
-	bat "BuildCookRun ${ProjectFile} ${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + additionalArguments + "-StagingDirectory=${outputDir}"
+	bat "${EngineUAT} BuildCookRun ${ProjectFile} ${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() 
+	+ (usePak ? "-pak " : " ") + additionalArguments + "-StagingDirectory=${outputDir}"
 }
 
 def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String outputDir, String additionalArguments = "")

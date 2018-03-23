@@ -93,7 +93,7 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
   *	platforms - The desired cooking platform. Each platform should be seperated by a +. e.g. WindowsNoEditor+Xbox+Linux
   * additionalArguments - Optional arguments to pass to the cooker
  */ 
-def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", boolean iterative = true, String additionalArguments = "-compressed")
+def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", boolean iterative = true, String additionalArguments = "-compressed -fileopenlog")
 {
 	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments}" + (iterative ? " -iterate -iterateshash" : "")
 }

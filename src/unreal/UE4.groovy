@@ -95,7 +95,7 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
  */ 
 def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", boolean iterative = true, String additionalArguments = "-compressed")
 {
-	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments}" + iterative ? " -iterate -iterateshash" : ""
+	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments}" + (iterative ? " -iterate -iterateshash" : "")
 }
 
 /** 
@@ -108,7 +108,7 @@ def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", bo
  */ 
 def Deploy(String platform, BuildConfiguration buildConfiguration, boolean usePak, String outputDir, boolean iterative = true, String additionalArguments = "")
 {
-	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + (usePak ? " -pak " : " ") + additionalArguments + " -StagingDirectory=\"${outputDir}\"" +  iterative ? " -iterativedeploy" : ""
+	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + (usePak ? " -pak " : " ") + additionalArguments + " -StagingDirectory=\"${outputDir}\"" +  (iterative ? " -iterativedeploy" : "")
 }
 
 /** 

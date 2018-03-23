@@ -64,9 +64,9 @@ def GenerateProjectFiles()
   * platform - the target compilation platform
   * additionalArguments - Additional arguments to pass to the compiler
  */ 
-def Compile(String target, BuildConfiguration buildConfiguration, String platform = "win64", String additionalArguments = "")
+def Compile(String target, BuildConfiguration buildConfiguration, String platform = "Win64", String additionalArguments = "")
 {
-	bat "${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + additionalArguments
+	bat "${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " " + additionalArguments
 }
 
 /** 
@@ -76,7 +76,7 @@ def Compile(String target, BuildConfiguration buildConfiguration, String platfor
   * platform - the target compilation platform
   * additionalArguments - Additional arguments to pass to the compiler
  */ 
-def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true, String platform = "win64", String additionalArguments = "")
+def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true, String platform = "Win64", String additionalArguments = "")
 {
 	String projectTarget = "${ProjectName}"
 	if(buildConfiguration <= BuildConfiguration.Development && editor)
@@ -88,23 +88,40 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
 
 /** 
   * Cook the project for the given platform(s)
-  * mapsToCook - the maps we want cooked
+  * mapsToCook - The maps we want cooked
+  * iterative - Use iterative cooking
   *	platforms - The desired cooking platform. Each platform should be seperated by a +. e.g. WindowsNoEditor+Xbox+Linux
   * additionalArguments - Optional arguments to pass to the cooker
  */ 
-def CookProject(String platforms = "WindowsNoEditor", String mapsToCook, String additionalArguments = "-fileopenlog -iterate -iterateshash -compressed")
+def CookProject(String platforms = "WindowsNoEditor", String mapsToCook, boolean iterative = true, String additionalArguments = "-compressed")
 {
-	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments}"
+	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments}" + iterative ? " -iterate -iterateshash" : ""
 }
 
-def Deploy(String platform, BuildConfiguration buildConfiguration, boolean usePak, String outputDir, String additionalArguments = "")
+/** 
+  * Deploy the project to a platform
+  * buildConfiguration - The BuildConfiguration type of this deployment
+  * usePak - Whether or not to use pak files
+  *	outputDir - The staging directory we want to output this deployment to
+  * iterative - Use iterative deployment
+  * additionalArguments - Optional arguments to pass to the deployment command
+ */ 
+def Deploy(String platform, BuildConfiguration buildConfiguration, boolean usePak, String outputDir, boolean iterative = true, String additionalArguments = "")
 {
-	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + (usePak ? " -pak " : " ") + additionalArguments + " -StagingDirectory=\"${outputDir}\""
+	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + (usePak ? " -pak " : " ") + additionalArguments + " -StagingDirectory=\"${outputDir}\"" +  iterative ? " -iterativedeploy" : ""
 }
 
-def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String outputDir, String additionalArguments = "")
+/** 
+  * Deploy the project to a platform
+  * consoleIP - The IP of the console we want to deploy to
+  * buildConfiguration - The BuildConfiguration type of this deployment
+  *	outputDir - The staging directory we want to output this deployment to
+  * iterative - Use iterative deployment
+  * additionalArguments - Optional arguments to pass to the deployment command
+ */ 
+def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String outputDir, boolean iterative = true, String additionalArguments = "")
 {
-	Deploy("XboxOne", buildConfiguration, true, outputDir, "-cmdline=-Messaging -device=XboxOne@" + consoleIP + " " + additionalArguments)
+	Deploy("XboxOne", buildConfiguration, true, outputDir, iterative, "-cmdline=-Messaging -device=XboxOne@" + consoleIP + " " + additionalArguments)
 }
 
 // Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache

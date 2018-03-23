@@ -98,7 +98,7 @@ def CookProject(String platforms = "WindowsNoEditor", String mapsToCook, String 
 def Deploy(String platform, BuildConfiguration buildConfiguration, boolean usePak, String outputDir, String additionalArguments = "")
 {
 	bat "BuildCookRun ${ProjectFile} ${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() 
-	+ (usePak ? "-pak " : " ") + additionalArguments + outputDir
+	+ (usePak ? "-pak " : " ") + additionalArguments + "-StagingDirectory=${outputDir}"
 }
 
 def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String outputDir, String additionalArguments = "")

@@ -41,32 +41,32 @@ pipeline
 
     stages 
 	{
-	    stage('Generate Project Files')
-	    {
-	        steps
-	        {
-	            script
-	            {
-                    UE4.GenerateProjectFiles()
-	            }
-	        }
-	    }
+		stage('Generate Project Files')
+		{
+			steps
+			{
+				script
+				{
+					UE4.GenerateProjectFiles()
+				}
+			}
+		}
 		stage('Compile')
 		{
-            steps 
+			steps
 			{
-                script
-                {
-                    UE4.CompileProject(params.BuildConfig as unreal.BuildConfiguration)
-                }
-            }
-        }
+				script
+				{
+					UE4.CompileProject(params.BuildConfig as unreal.BuildConfiguration)
+				}
+			}
+		}
         stage('Cook')
-        {
-            when
-	        {
-	            expression { params.CookProject == true }
-	        }
+		{
+			when
+			{
+				expression { params.CookProject == true }
+			}
             steps
             {
                 script
@@ -77,11 +77,11 @@ pipeline
         }
         stage('Build DDC') 
 		{
-            steps 
+			steps
 			{
-                script
-	            {
-                    UE4.BuildDDC()
+				script
+				{
+					UE4.BuildDDC()
 	            }
             }
         }

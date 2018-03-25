@@ -67,7 +67,7 @@ pipeline
 			{
 				expression { params.CookProject == true }
 			}
-            steps
+			steps
 			{
 				script
 	            {

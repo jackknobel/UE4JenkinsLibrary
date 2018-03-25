@@ -21,7 +21,7 @@ pipeline
     
 	parameters
 	{
-        choice(
+		choice(
 			choices: BuildConfigChoices,
 			description: "Build Configuration",
 			name: "BuildConfig"

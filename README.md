@@ -14,28 +14,28 @@ def BuildConfigChoices = UE4.GetBuildConfigurationChoices()
 
 pipeline 
 {
-    agent any
+	agent any
     
-    options 
-    { skipDefaultCheckout() }
+	options 
+	{ skipDefaultCheckout() }
     
-    parameters
-    {
-        choice(
-            choices: BuildConfigChoices,
-            description: "Build Configuration",
-            name: "BuildConfig"
-        )
-        booleanParam(defaultValue: true, description: 'Should the project be cooked?', name: 'CookProject')
-        string(defaultValue: '', description: 'Maps we want to cook', name: 'MapsToCook')
-    }
-    
-    environment 
+	parameters
 	{
-        ProjectName			= getFolderName(this)
-        WorkspaceRootDir	= getProjectRootWorkspaceDir(this)
-        ProjectRootDir		= "${WorkspaceRootDir}/${ProjectName}"
-        
+        choice(
+			choices: BuildConfigChoices,
+			description: "Build Configuration",
+			name: "BuildConfig"
+			)
+		booleanParam(defaultValue: true, description: 'Should the project be cooked?', name: 'CookProject')
+		string(defaultValue: '', description: 'Maps we want to cook', name: 'MapsToCook')
+	}
+    
+	environment 
+	{
+		ProjectName			= getFolderName(this)
+		WorkspaceRootDir	= getProjectRootWorkspaceDir(this)
+		ProjectRootDir		= "${WorkspaceRootDir}/${ProjectName}"
+		
 		UE4 = UE4.Initialise(ProjectName, ProjectRootDir)
 	}
 	
@@ -70,7 +70,7 @@ pipeline
 			steps
 			{
 				script
-	            {
+				{
 					UE4.CookProject("WindowsNoEditor", "${params.MapsToCook}")
 				}
 			}

@@ -36,10 +36,10 @@ pipeline
         WorkspaceRootDir	= getProjectRootWorkspaceDir(this)
         ProjectRootDir		= "${WorkspaceRootDir}/${ProjectName}"
         
-        UE4 = UE4.Initialise(ProjectName, ProjectRootDir)
+		UE4 = UE4.Initialise(ProjectName, ProjectRootDir)
 	}
-
-    stages 
+	
+	stages
 	{
 		stage('Generate Project Files')
 		{
@@ -61,30 +61,30 @@ pipeline
 				}
 			}
 		}
-        stage('Cook')
+		stage('Cook')
 		{
 			when
 			{
 				expression { params.CookProject == true }
 			}
             steps
-            {
-                script
+			{
+				script
 	            {
-                    UE4.CookProject("WindowsNoEditor", "${params.MapsToCook}", "-iterate")
-	            }
-            }
-        }
-        stage('Build DDC') 
+					UE4.CookProject("WindowsNoEditor", "${params.MapsToCook}")
+				}
+			}
+		}
+		stage('Build DDC') 
 		{
 			steps
 			{
 				script
 				{
 					UE4.BuildDDC()
-	            }
-            }
-        }
-    }
+				}
+			}
+		}
+	}
 }
 ```

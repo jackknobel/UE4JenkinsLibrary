@@ -108,7 +108,7 @@ def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", bo
  */ 
 def Deploy(String platform, BuildConfiguration buildConfiguration, String outputDir, boolean usePak = true, boolean iterative = true, String additionalArguments = "")
 {
-	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + " -StagingDirectory=\"${outputDir}\"" + (usePak ? " -pak " : " ") +  (iterative ? " -iterativedeploy" : "") + additionalArguments
+	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + " -StagingDirectory=\"${outputDir}\"" + (usePak ? " -pak " : " ") +  (iterative ? " -iterativedeploy " : " ") + additionalArguments
 }
 
 /** 

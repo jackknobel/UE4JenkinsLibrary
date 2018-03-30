@@ -106,9 +106,9 @@ def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", bo
   * iterative - Use iterative deployment
   * additionalArguments - Optional arguments to pass to the deployment command
  */ 
-def Deploy(String platform, BuildConfiguration buildConfiguration, String outputDir, boolean usePak = true, boolean iterative = true, String additionalArguments = "")
+def Deploy(String platform, BuildConfiguration buildConfiguration, String outputDir, boolean usePak = true, boolean iterative = true, String cmdlineArguments = "", String additionalArguments = "")
 {
-	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + " -StagingDirectory=\"${outputDir}\"" + (usePak ? " -pak " : " ") + (iterative ? " -iterativedeploy " : " ") + additionalArguments
+	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + " -StagingDirectory=\"${outputDir}\"" + (usePak ? " -pak " : " ") + (iterative ? " -iterativedeploy " : " ") +  " -cmdline=\"" + cmdlineArguments + "\" " + additionalArguments
 }
 
 /** 
@@ -118,11 +118,13 @@ def Deploy(String platform, BuildConfiguration buildConfiguration, String output
   *	outputDir - The staging directory we want to output this deployment to
   * usePak - Whether or not to use pak files
   * iterative - Use iterative deployment
+  * deployToDevice - Option if we are wanting to push the packaged build to the device
+  * cmdlineArguments - Arguments to pass to the commandline when the package next launches
   * additionalArguments - Optional arguments to pass to the deployment command
  */ 
-def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String outputDir, boolean usePak = true, boolean iterative = true, String additionalArguments = "")
+def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String outputDir, boolean usePak = true, boolean iterative = true, boolean deployToDevice = true, String cmdlineArguments = "", String additionalArguments = "")
 {
-	Deploy("XboxOne", buildConfiguration, outputDir, usePak, iterative, " -deploy -cmdline=\"-Messaging\"" + " -device=XboxOne@" + consoleIP + " " + additionalArguments)
+	Deploy("XboxOne", buildConfiguration, outputDir, usePak, iterative, + "-Messaging " + cmdlineArguments, (deployToDevice ? " -deploy " : " ") + " -device=XboxOne@" + consoleIP + " " + additionalArguments)
 }
 
 /* Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache */

@@ -104,6 +104,7 @@ def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", bo
   *	outputDir - The staging directory we want to output this deployment to
   * usePak - Whether or not to use pak files
   * iterative - Use iterative deployment
+  * cmdlineArguments - Arguments to pass to the commandline when the package next launches
   * additionalArguments - Optional arguments to pass to the deployment command
  */ 
 def Deploy(String platform, BuildConfiguration buildConfiguration, String outputDir, boolean usePak = true, boolean iterative = true, String cmdlineArguments = "", String additionalArguments = "")

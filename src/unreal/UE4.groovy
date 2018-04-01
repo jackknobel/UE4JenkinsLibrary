@@ -125,7 +125,7 @@ def Deploy(String platform, BuildConfiguration buildConfiguration, String stagin
  */ 
 def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String stagingDir, boolean usePak = true, boolean iterative = true, boolean deployToDevice = true, String cmdlineArguments = "", String additionalArguments = "")
 {
-	Deploy("XboxOne", buildConfiguration, stagingDir, usePak, iterative, + "-Messaging " + cmdlineArguments, (deployToDevice ? " -deploy " : " ") + " -device=XboxOne@${consoleIP} " + additionalArguments)
+	Deploy("XboxOne", buildConfiguration, stagingDir, usePak, iterative, "-Messaging " + cmdlineArguments, (deployToDevice ? " -deploy " : " ") + " -device=XboxOne@${consoleIP} " + additionalArguments)
 }
 
 /* Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache */

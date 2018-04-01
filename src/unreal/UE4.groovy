@@ -66,7 +66,7 @@ def GenerateProjectFiles()
  */ 
 def Compile(String target, BuildConfiguration buildConfiguration, String platform = "Win64", String additionalArguments = "")
 {
-	bat returnStatus: true, script: "${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} "
+	bat "START /WAIT ${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} "
 }
 
 /** 

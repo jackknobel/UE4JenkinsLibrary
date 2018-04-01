@@ -18,7 +18,7 @@ def GetBuildConfigurationChoices()
 // Return UBT Directory
 def GetUBTDirectory()
 {
-	return '/Engine/Build/BatchFiles/Build.bat'
+	return '/Engine/Binaries/DotNET/UnrealBuildTool.exe'
 }
 
 // Return UAT Directory
@@ -66,7 +66,7 @@ def GenerateProjectFiles()
  */ 
 def Compile(String target, BuildConfiguration buildConfiguration, String platform = "Win64", String additionalArguments = "")
 {
-	bat "start ${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} "
+	bat "call ${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} "
 }
 
 /** 

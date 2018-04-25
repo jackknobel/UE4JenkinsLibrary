@@ -15,25 +15,25 @@ def GetBuildConfigurationChoices()
 	return Arrays.toString(BuildConfiguration.values()).replaceAll('^.|.$', "").split(", ").join("\n")
 }
 
-// Return UBT Directory
+/* Return UBT Directory */
 def GetUBTDirectory()
 {
 	return '/Engine/Build/BatchFiles/Build.bat'
 }
 
-// Return UAT Directory
+/* Return UAT Directory */
 def GetUATDirectory()
 {
 	return '/Engine/Build/BatchFiles/RunUAT.bat'
 }
 
-// Return the editor CMD Directory
+/* Return the editor CMD Directory */
 def GetCMDDirectory()
 {
 	return '/Engine/Binaries/Win64/UE4Editor-Cmd.exe'
 }
 
-// Project Specific Directories
+/* Project Specific Directories */
 def ProjectName = ''
 def EngineUAT	= ''
 def EngineUBT	= ''
@@ -41,7 +41,11 @@ def EditorCMD	= ''
 def ProjectDir	= ''
 def ProjectFile	= ''
 
-def Initialise(String projectName, String workingRoot)
+/* Arguments to pass to all commands. e.g -BuildMachine */
+def DefaultArguments = ''
+
+/* Initialise the Object with a project name, the root working directory and optional default arguments to pass to all commands */
+def Initialise(String projectName, String workingRoot, String defaultArguments = "")
 {
 	ProjectName		= projectName
 	EngineUAT		= "\"${workingRoot}" + GetUATDirectory() + "\""
@@ -49,12 +53,14 @@ def Initialise(String projectName, String workingRoot)
 	EditorCMD       = "\"${workingRoot}" + GetCMDDirectory() + "\""
 	ProjectDir      = "${workingRoot}/${ProjectName}"
 	ProjectFile     = "\"${ProjectDir}/${ProjectName}.uproject\""
+
+	DefaultArguments = defaultArguments
 }
 
 /* Generate Project files for the initialised project */
 def GenerateProjectFiles()
 {
-	bat "${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress"
+	bat "${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
 }
 
 /** 
@@ -66,7 +72,7 @@ def GenerateProjectFiles()
  */ 
 def Compile(String target, BuildConfiguration buildConfiguration, String platform = "Win64", String additionalArguments = "")
 {
-	bat "${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} "
+	bat "${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
 }
 
 /** 
@@ -95,7 +101,7 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
  */ 
 def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", boolean iterative = true, String additionalArguments = "-fileopenlog")
 {
-	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments}" + (iterative ? " -iterate -iterateshash" : "")
+	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments} ${DefaultArguments}" + (iterative ? " -iterate -iterateshash" : "")
 }
 
 /** 
@@ -109,7 +115,7 @@ def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", bo
  */ 
 def Deploy(String platform, BuildConfiguration buildConfiguration, String stagingDir, boolean usePak = true, boolean iterative = true, String cmdlineArguments = "", String additionalArguments = "")
 {
-	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + " -StagingDirectory=\"${stagingDir}\"" + (usePak ? " -pak " : " ") + (iterative ? " -iterativedeploy " : " ") +  " -cmdline=\"${cmdlineArguments}\" " + additionalArguments
+	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + " -StagingDirectory=\"${stagingDir}\"" + (usePak ? " -pak " : " ") + (iterative ? " -iterativedeploy " : " ") +  " -cmdline=\"${cmdlineArguments}\" " + "${additionalArguments} ${DefaultArguments}" 
 }
 
 /** 
@@ -131,7 +137,7 @@ def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String s
 /* Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache */
 def BuildDDC()
 {
-	 bat "${EditorCMD} -run=DerivedDataCache -fill -project=${ProjectFile}"
+	 bat "${EditorCMD} -run=DerivedDataCache -fill -project=${ProjectFile} ${DefaultArguments}"
 }
 
 return this

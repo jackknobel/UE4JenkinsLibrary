@@ -113,7 +113,7 @@ def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", bo
   * cmdlineArguments - Arguments to pass to the commandline when the package next launches
   * additionalArguments - Optional arguments to pass to the deployment command
  */ 
-def Deploy(String platform, BuildConfiguration buildConfiguration, String stagingDir, boolean usePak = true, boolean iterative = true, String cmdlineArguments = "", String additionalArguments = "")
+def PackageProject(String platform, BuildConfiguration buildConfiguration, String stagingDir, boolean usePak = true, boolean iterative = true, String cmdlineArguments = "", String additionalArguments = "")
 {
 	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + " -StagingDirectory=\"${stagingDir}\"" + (usePak ? " -pak " : " ") + (iterative ? " -iterativedeploy " : " ") +  " -cmdline=\"${cmdlineArguments}\" " + "${additionalArguments} ${DefaultArguments}" 
 }
@@ -129,9 +129,9 @@ def Deploy(String platform, BuildConfiguration buildConfiguration, String stagin
   * cmdlineArguments - Arguments to pass to the commandline when the package next launches
   * additionalArguments - Optional arguments to pass to the deployment command
  */ 
-def DeployXbox(String consoleIP, BuildConfiguration buildConfiguration, String stagingDir, boolean usePak = true, boolean iterative = true, boolean deployToDevice = true, String cmdlineArguments = "", String additionalArguments = "")
+def PackageXbox(String consoleIP, BuildConfiguration buildConfiguration, String stagingDir, boolean usePak = true, boolean iterative = true, boolean deployToDevice = true, String cmdlineArguments = "", String additionalArguments = "")
 {
-	Deploy("XboxOne", buildConfiguration, stagingDir, usePak, iterative, "-Messaging " + cmdlineArguments, (deployToDevice ? " -deploy " : " ") + " -device=XboxOne@${consoleIP} " + additionalArguments)
+	PackageProject("XboxOne", buildConfiguration, stagingDir, usePak, iterative, cmdlineArguments, (deployToDevice ? " -deploy " : " ") + " -Messaging -device=XboxOne@${consoleIP} " + additionalArguments)
 }
 
 /* Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache */

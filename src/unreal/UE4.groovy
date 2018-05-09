@@ -105,7 +105,8 @@ def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", bo
 }
 
 /** 
-  * Deploy the project to a platform
+  * Package the project for a target platform
+  * platform - The platform we want to package to
   * buildConfiguration - The BuildConfiguration type of this deployment
   *	stagingDir - The staging directory we want to output this deployment to
   * usePak - Whether or not to use pak files
@@ -118,20 +119,20 @@ def PackageProject(String platform, BuildConfiguration buildConfiguration, Strin
 	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + " -StagingDirectory=\"${stagingDir}\"" + (usePak ? " -pak " : " ") + (iterative ? " -iterativedeploy " : " ") +  " -cmdline=\"${cmdlineArguments}\" " + "${additionalArguments} ${DefaultArguments}" 
 }
 
-/** 
-  * Deploy the project to a platform
-  * consoleIP - The IP of the console we want to deploy to
+/**
+  * Package and Deploy the project to a platform
+  * platform - The platform we want to package and deploy to
   * buildConfiguration - The BuildConfiguration type of this deployment
   *	stagingDir - The staging directory we want to output this deployment to
+  * deviceIP - The IP of the device we want to deploy to
   * usePak - Whether or not to use pak files
   * iterative - Use iterative deployment
-  * deployToDevice - Option if we are wanting to push the packaged build to the device
   * cmdlineArguments - Arguments to pass to the commandline when the package next launches
   * additionalArguments - Optional arguments to pass to the deployment command
  */ 
-def PackageXbox(String consoleIP, BuildConfiguration buildConfiguration, String stagingDir, boolean usePak = true, boolean iterative = true, boolean deployToDevice = true, String cmdlineArguments = "", String additionalArguments = "")
+def PackageAndDeployProject(String platform, BuildConfiguration buildConfiguration, String stagingDir, String deviceIP, boolean usePak = true, boolean iterative = true, String cmdlineArguments = "", String additionalArguments = "")
 {
-	PackageProject("XboxOne", buildConfiguration, stagingDir, usePak, iterative, cmdlineArguments, (deployToDevice ? " -deploy " : " ") + " -Messaging -device=XboxOne@${consoleIP} " + additionalArguments)
+	PackageProject(platform, buildConfiguration, stagingDir, usePak, iterative, cmdlineArguments, " -Messaging -deploy -device=${platform}@${deviceIP} " + additionalArguments)
 }
 
 /* Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache */

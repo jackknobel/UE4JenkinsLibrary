@@ -138,7 +138,7 @@ def PackageAndDeployProject(String platform, BuildConfiguration buildConfigurati
 /* Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache */
 def BuildDDC()
 {
-	 bat "${EditorCMD} -run=DerivedDataCache -fill -project=${ProjectFile} ${DefaultArguments}"
+	 bat "${EditorCMD} ${ProjectFile} -run=DerivedDataCache -fill ${DefaultArguments}"
 }
 
 return this

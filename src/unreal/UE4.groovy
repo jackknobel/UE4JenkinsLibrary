@@ -4,10 +4,10 @@ package unreal;
 
 enum BuildConfiguration
 {
-	DebugGame,
 	Development,
 	Test,
-	Shipping
+	Shipping,
+	DebugGame
 }
 
 def GetBuildConfigurationChoices()

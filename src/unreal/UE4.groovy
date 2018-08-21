@@ -99,7 +99,7 @@ def RunBuildGraph(String scriptPath, String target, def parameters, String addit
 	{
 		parameter -> parsedParams += "-set:${parameter.key}=${parameter.value} "
 	}
-	bat "${EngineUAT} BuildGraph -Script=${scriptPath} -target=${target} ${parsedParams} ${additionalArguments}"
+	bat "${EngineUAT} BuildGraph -Script=${scriptPath} -target=${target} ${parsedParams} ${additionalArguments} ${DefaultArguments}"
 }
 
 /** 

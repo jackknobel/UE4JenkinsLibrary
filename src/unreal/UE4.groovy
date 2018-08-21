@@ -89,7 +89,17 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
 	{
 		projectTarget += "Editor"
 	}
-	Compile(projectTarget, buildConfiguration, platform, additionalArguments)
+	bat "${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
+}
+
+def RunBuildGraph(String scriptPath, String target, def parameters, String additionalArguments = "")
+{
+	String parsedParams
+	parameters.each
+	{
+		parameter -> parsedParams += "-set:${parameter.key}=${parameter.value} "
+	}
+	bat "${EngineUAT} BuildGraph -Script=${scriptPath} -target=${target} ${parsedParams} ${additionalArguments}"
 }
 
 /** 

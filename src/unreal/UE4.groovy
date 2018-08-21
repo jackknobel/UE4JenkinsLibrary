@@ -92,14 +92,14 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
 	bat "${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
 }
 
-def RunBuildGraph(String scriptPath, String target, def parameters, String additionalArguments = "")
+def RunBuildGraph(String scriptPath, String target, def parameters, boolean clearHistory, String additionalArguments = "")
 {
 	String parsedParams
 	parameters.each
 	{
 		parameter -> parsedParams += "-set:${parameter.key}=${parameter.value} "
 	}
-	bat "${EngineUAT} BuildGraph -Script=${scriptPath} -target=${target} ${parsedParams} ${additionalArguments} ${DefaultArguments}"
+	bat "${EngineUAT} BuildGraph -Script=${scriptPath} -target=${target} ${parsedParams} ${additionalArguments} ${DefaultArguments} " + clearHistory ? "-ClearHistory" : ""
 }
 
 /** 

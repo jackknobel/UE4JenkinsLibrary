@@ -94,7 +94,7 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
 
 def RunBuildGraph(String scriptPath, String target, def parameters, boolean clearHistory, String additionalArguments = "")
 {
-	String parsedParams
+	String parsedParams = ""
 	parameters.each
 	{
 		parameter -> parsedParams += "-set:${parameter.key}=${parameter.value} "

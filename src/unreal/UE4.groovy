@@ -42,13 +42,18 @@ def GetCMDDirectory()
 /* Arguments to pass to all commands. e.g -BuildMachine */
 def DefaultArguments = ''
 
-/* Initialise the Object with a project name, the root working directory and optional default arguments to pass to all commands 
- * By default it is assumed the working root (engine dir) is where the project can be found
+/* Initialise the Object with a project name, engine directory, optional project directory and optional default arguments to pass to all commands 
+ * if projectDir is not passed it is assumed the engine dir is where the project can be found
  */
-def Initialise(String projectName, String engineDir, String projectDir, String defaultArguments = "")
+def Initialise(String projectName, String engineDir, String projectDir = "", String defaultArguments = "")
 {
 	ProjectName		= projectName
 	EngineDir		= engineDir
+
+	if(projectDir = "")
+	{
+		projectDir	= "${EngineDir}/${ProjectName}"
+	}
 	ProjectDir      = projectDir
 	ProjectFile     = "\"${ProjectDir}/${ProjectName}.uproject\""
 
@@ -100,7 +105,7 @@ def RunBuildGraph(String scriptPath, String target, def parameters, boolean clea
 
 	parsedParams = parsedParams.trim()
 
-	bat GetUATDirectory() +" BuildGraph -Script=\"${scriptPath}\" -target=\"${target}\" -set:ProjectName=${ProjectName} -set:UProject=${ProjectFile} ${parsedParams} ${additionalArguments} ${DefaultArguments} " + (clearHistory ? "-ClearHistory" : "")
+	bat GetUATDirectory() + " BuildGraph -Script=\"${scriptPath}\" -target=\"${target}\" -set:ProjectName=${ProjectName} -set:UProject=${ProjectFile} ${parsedParams} ${additionalArguments} ${DefaultArguments} " + (clearHistory ? "-ClearHistory" : "")
 }
 
 /** 

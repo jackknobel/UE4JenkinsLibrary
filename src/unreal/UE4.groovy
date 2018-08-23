@@ -100,7 +100,7 @@ def RunBuildGraph(String scriptPath, String target, def parameters, boolean clea
 		parameter -> parsedParams += "-set:${parameter.key}=\"${parameter.value}\" "
 	}
 
-	parsedParams = parsedParams.trim()
+	parsedParams.trim()
 
 	println parsedParams
 

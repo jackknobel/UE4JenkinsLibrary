@@ -30,13 +30,13 @@ def GetUBTDirectory()
 /* Return UAT Directory */
 def GetUATDirectory()
 {
-	return '${EngineDir}/Engine/Build/BatchFiles/RunUAT.bat'
+	return "${EngineDir}/Engine/Build/BatchFiles/RunUAT.bat"
 }
 
 /* Return the editor CMD Directory */
 def GetCMDDirectory()
 {
-	return '${EngineDir}/Engine/Binaries/Win64/UE4Editor-Cmd.exe'
+	return "${EngineDir}/Engine/Binaries/Win64/UE4Editor-Cmd.exe"
 }
 
 /* Arguments to pass to all commands. e.g -BuildMachine */
@@ -64,7 +64,7 @@ def Initialise(String projectName, String engineDir, String projectDir = "", Str
 /* Generate Project files for the initialised project */
 def GenerateProjectFiles()
 {
-	bat "${EngineDir}/Engine/Build/BatchFiles/GenerateProjectFiles.bat -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
+	bat "\"${EngineDir}/Engine/Build/BatchFiles/GenerateProjectFiles.bat\" -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
 }
 
 /** 

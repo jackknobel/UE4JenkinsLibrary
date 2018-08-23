@@ -15,43 +15,41 @@ def GetBuildConfigurationChoices()
 	return Arrays.toString(BuildConfiguration.values()).replaceAll('^.|.$', "").split(", ").join("\n")
 }
 
+/* Project Specific Directories */
+def EngineDir	= ''
+def ProjectName = ''
+def ProjectDir	= ''
+def ProjectFile	= ''
+
 /* Return UBT Directory */
 def GetUBTDirectory()
 {
-	return '/Engine/Build/BatchFiles/Build.bat'
+	return "${EngineDir}/Engine/Build/BatchFiles/Build.bat"
 }
 
 /* Return UAT Directory */
 def GetUATDirectory()
 {
-	return '/Engine/Build/BatchFiles/RunUAT.bat'
+	return '${EngineDir}/Engine/Build/BatchFiles/RunUAT.bat'
 }
 
 /* Return the editor CMD Directory */
 def GetCMDDirectory()
 {
-	return '/Engine/Binaries/Win64/UE4Editor-Cmd.exe'
+	return '${EngineDir}/Engine/Binaries/Win64/UE4Editor-Cmd.exe'
 }
-
-/* Project Specific Directories */
-def ProjectName = ''
-def EngineUAT	= ''
-def EngineUBT	= ''
-def EditorCMD	= ''
-def ProjectDir	= ''
-def ProjectFile	= ''
 
 /* Arguments to pass to all commands. e.g -BuildMachine */
 def DefaultArguments = ''
 
-/* Initialise the Object with a project name, the root working directory and optional default arguments to pass to all commands */
-def Initialise(String projectName, String workingRoot, String defaultArguments = "")
+/* Initialise the Object with a project name, the root working directory and optional default arguments to pass to all commands 
+ * By default it is assumed the working root (engine dir) is where the project can be found
+ */
+def Initialise(String projectName, String engineDir, String projectDir, String defaultArguments = "")
 {
 	ProjectName		= projectName
-	EngineUAT		= "\"${workingRoot}" + GetUATDirectory() + "\""
-	EngineUBT       = "\"${workingRoot}" + GetUBTDirectory() + "\""
-	EditorCMD       = "\"${workingRoot}" + GetCMDDirectory() + "\""
-	ProjectDir      = "${workingRoot}/${ProjectName}"
+	EngineDir		= engineDir
+	ProjectDir      = projectDir
 	ProjectFile     = "\"${ProjectDir}/${ProjectName}.uproject\""
 
 	DefaultArguments = defaultArguments
@@ -60,7 +58,7 @@ def Initialise(String projectName, String workingRoot, String defaultArguments =
 /* Generate Project files for the initialised project */
 def GenerateProjectFiles()
 {
-	bat "${workingRoot}/Engine/Build/BatchFiles/GenerateProjectFiles.bat -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
+	bat "${EngineDir}/Engine/Build/BatchFiles/GenerateProjectFiles.bat -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
 }
 
 /** 
@@ -72,7 +70,7 @@ def GenerateProjectFiles()
  */ 
 def Compile(String target, BuildConfiguration buildConfiguration, String platform = "Win64", String additionalArguments = "")
 {
-	bat "${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
+	bat GetUBTDirectory() + " ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
 }
 
 /** 
@@ -89,7 +87,7 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
 	{
 		projectTarget += "Editor"
 	}
-	bat "${EngineUBT} ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
+	bat GetUBTDirectory() + " ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
 }
 
 def RunBuildGraph(String scriptPath, String target, def parameters, boolean clearHistory, String additionalArguments = "")
@@ -102,7 +100,7 @@ def RunBuildGraph(String scriptPath, String target, def parameters, boolean clea
 
 	parsedParams = parsedParams.trim()
 
-	bat "${EngineUAT} BuildGraph -Script=\"${scriptPath}\" -target=\"${target}\" -set:ProjectName=${ProjectName} -set:UProject=${ProjectFile} ${parsedParams} ${additionalArguments} ${DefaultArguments} " + (clearHistory ? "-ClearHistory" : "")
+	bat GetUATDirectory() +" BuildGraph -Script=\"${scriptPath}\" -target=\"${target}\" -set:ProjectName=${ProjectName} -set:UProject=${ProjectFile} ${parsedParams} ${additionalArguments} ${DefaultArguments} " + (clearHistory ? "-ClearHistory" : "")
 }
 
 /** 
@@ -114,7 +112,7 @@ def RunBuildGraph(String scriptPath, String target, def parameters, boolean clea
  */ 
 def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", boolean iterative = true, String additionalArguments = "-fileopenlog")
 {
-	 bat "${EditorCMD} ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments} ${DefaultArguments}" + (iterative ? " -iterate -iterateshash" : "")
+	 bat GetCMDDirectory() + " ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments} ${DefaultArguments}" + (iterative ? " -iterate -iterateshash" : "")
 }
 
 /** 
@@ -129,7 +127,7 @@ def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", bo
  */ 
 def PackageProject(String platform, BuildConfiguration buildConfiguration, String stagingDir, boolean usePak = true, boolean iterative = true, String cmdlineArguments = "", String additionalArguments = "")
 {
-	bat "${EngineUAT} BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + " -StagingDirectory=\"${stagingDir}\"" + (usePak ? " -pak " : " ") + " -cmdline=\"${cmdlineArguments}\" " + "${additionalArguments} ${DefaultArguments}" 
+	bat GetUATDirectory() + " BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + " -StagingDirectory=\"${stagingDir}\"" + (usePak ? " -pak " : " ") + " -cmdline=\"${cmdlineArguments}\" " + "${additionalArguments} ${DefaultArguments}" 
 }
 
 /**
@@ -151,7 +149,7 @@ def PackageAndDeployProject(String platform, BuildConfiguration buildConfigurati
 /* Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache */
 def BuildDDC()
 {
-	 bat "${EditorCMD} ${ProjectFile} -run=DerivedDataCache -fill ${DefaultArguments}"
+	 bat GetCMDDirectory() + " ${ProjectFile} -run=DerivedDataCache -fill ${DefaultArguments}"
 }
 
 return this

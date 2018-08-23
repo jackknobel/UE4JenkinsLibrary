@@ -24,19 +24,19 @@ def ProjectFile	= ''
 /* Return UBT Directory */
 def GetUBTDirectory()
 {
-	return "${EngineDir}/Engine/Build/BatchFiles/Build.bat"
+	return "\"${EngineDir}/Engine/Build/BatchFiles/Build.bat\""
 }
 
 /* Return UAT Directory */
 def GetUATDirectory()
 {
-	return "${EngineDir}/Engine/Build/BatchFiles/RunUAT.bat"
+	return "\"${EngineDir}/Engine/Build/BatchFiles/RunUAT.bat\""
 }
 
 /* Return the editor CMD Directory */
 def GetCMDDirectory()
 {
-	return "${EngineDir}/Engine/Binaries/Win64/UE4Editor-Cmd.exe"
+	return "\"${EngineDir}/Engine/Binaries/Win64/UE4Editor-Cmd.exe\""
 }
 
 /* Arguments to pass to all commands. e.g -BuildMachine */

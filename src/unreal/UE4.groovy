@@ -60,7 +60,7 @@ def Initialise(String projectName, String workingRoot, String defaultArguments =
 /* Generate Project files for the initialised project */
 def GenerateProjectFiles()
 {
-	bat "${EngineUBT} -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
+	bat "${workingRoot}/Engine/Build/BatchFiles/GenerateProjectFiles.bat -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
 }
 
 /** 

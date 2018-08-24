@@ -104,8 +104,6 @@ def RunBuildGraph(String scriptPath, String target, def parameters, boolean clea
 		parameter -> parsedParams += "-set:${parameter.key}=\"${parameter.value}\" "
 	}
 
-	parsedParams = parsedParams.trim()
-
 	bat GetUATDirectory() + " BuildGraph -Script=\"${scriptPath}\" -target=\"${target}\" -set:ProjectName=${ProjectName} -set:UProject=${ProjectFile} ${parsedParams} ${additionalArguments} ${DefaultArguments} " + (clearHistory ? "-ClearHistory" : "")
 }
 

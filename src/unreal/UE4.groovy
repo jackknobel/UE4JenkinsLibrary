@@ -104,7 +104,7 @@ def RunBuildGraph(String scriptPath, String target, def parameters, String addit
 		parameter -> parsedParams += "-set:${parameter.key}=\"${parameter.value}\" "
 	}
 
-	bat GetUATDirectory() + " BuildGraph -Script=\"${scriptPath}\" -target=\"${target}\" -set:ProjectName=${ProjectName} -set:UProject=${ProjectFile} ${parsedParams} ${additionalArguments} ${DefaultArguments} "
+	bat GetUATDirectory() + " BuildGraph -Script=\"${scriptPath}\" -target=\"${target}\" -set:ProjectName=${ProjectName} -set:UProject=${ProjectFile} ${parsedParams} ${additionalArguments} ${DefaultArguments}"
 }
 
 /** 

@@ -96,7 +96,7 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
 	bat GetUBTDirectory() + " ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
 }
 
-def RunBuildGraph(String scriptPath, String target, def parameters, boolean clearHistory, String additionalArguments = "")
+def RunBuildGraph(String scriptPath, String target, def parameters, String additionalArguments = "")
 {
 	String parsedParams = ""
 	parameters.each
@@ -104,7 +104,7 @@ def RunBuildGraph(String scriptPath, String target, def parameters, boolean clea
 		parameter -> parsedParams += "-set:${parameter.key}=\"${parameter.value}\" "
 	}
 
-	bat GetUATDirectory() + " BuildGraph -Script=\"${scriptPath}\" -target=\"${target}\" -set:ProjectName=${ProjectName} -set:UProject=${ProjectFile} ${parsedParams} ${additionalArguments} ${DefaultArguments} " + (clearHistory ? "-ClearHistory" : "")
+	bat GetUATDirectory() + " BuildGraph -Script=\"${scriptPath}\" -target=\"${target}\" -set:ProjectName=${ProjectName} -set:UProject=${ProjectFile} ${parsedParams} ${additionalArguments} ${DefaultArguments} "
 }
 
 /** 

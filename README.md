@@ -1,5 +1,5 @@
-# Jenkins Library
-Jenkins Pipeline Library Scripts
+# UE4 Jenkins Library
+Jenkins Pipeline Library for UE4
 
 ------
 

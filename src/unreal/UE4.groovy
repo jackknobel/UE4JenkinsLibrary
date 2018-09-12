@@ -89,11 +89,11 @@ def Compile(String target, BuildConfiguration buildConfiguration, String platfor
 def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true, String platform = "Win64", String additionalArguments = "")
 {
 	String projectTarget = "${ProjectName}"
-	if(buildConfiguration <= BuildConfiguration.Development && editor)
+	if(editor && (buildConfiguration == BuildConfiguration.Development || buildConfiguration == BuildConfiguration.DebugGame))
 	{
 		projectTarget += "Editor"
 	}
-	bat GetUBTDirectory() + " ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
+	bat GetUBTDirectory() + " ${projectTarget} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
 }
 
 def RunBuildGraph(String scriptPath, String target, def parameters, String additionalArguments = "")

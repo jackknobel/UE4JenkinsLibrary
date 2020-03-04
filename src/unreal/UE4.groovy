@@ -83,7 +83,7 @@ def Initialise(String projectName, String engineDir, String projectDir = "", Str
 /* Generate Project files for the initialised project */
 def GenerateProjectFiles()
 {
-	${ScriptInvocationType} "${GetBatchDir}/GenerateProjectFiles.${ScriptInvocationType}" -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
+	${ScriptInvocationType} "\"${GetBatchDir}/GenerateProjectFiles.${ScriptInvocationType}\" -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
 }
 
 /** 

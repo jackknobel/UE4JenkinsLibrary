@@ -24,31 +24,18 @@ def ProjectFile	= ''
 String ScriptInvocationType = isUnix() ? bat : sh
 
 /* Return BatchFiles Dir */
-def GetBatchDir()
-{
-	def Output = null
-	if(isUnix())
-	{
-		Output = "${EngineDir}/Engine/Build/BatchFiles/Linux"
-	}
-	else
-	{
-		Output = "${EngineDir}/Engine/Build/BatchFiles"
-	}
-	
-	return Output;
-}
+def BatchDir = isUnix() ? "${EngineDir}/Engine/Build/BatchFiles/Linux" : "${EngineDir}/Engine/Build/BatchFiles"
 
-/* Return UBT Directory */
+/* Return UBT */
 def GetUBT()
 {
-	return "\"${GetBatchDir}/Build.${ScriptInvocationType}\""
+	return "\"${BatchDir}/Build.${ScriptInvocationType}\""
 }
 
 /* Return UAT */
 def GetUAT()
 {
-	return "\"${GetBatchDir}/RunUAT.${ScriptInvocationType}\""
+	return "\"${BatchDir}/RunUAT.${ScriptInvocationType}\""
 }
 
 /* Return the editor CMD */
@@ -82,7 +69,7 @@ def Initialise(String projectName, String engineDir, String projectDir = "", Str
 /* Generate Project files for the initialised project */
 def GenerateProjectFiles()
 {
-	${ScriptInvocationType} "\"${GetBatchDir}/GenerateProjectFiles.${ScriptInvocationType}\" -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
+	${ScriptInvocationType} "\"${BatchDir}/GenerateProjectFiles.${ScriptInvocationType}\" -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
 }
 
 /** 

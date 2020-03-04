@@ -22,7 +22,7 @@ def ProjectDir	= ''
 def ProjectFile	= ''
 
 /* Return BatchFiles Dir */
-String BatchDir = isUnix() ? '${EngineDir}/Engine/Build/BatchFiles/Linux' : '${EngineDir}/Engine/Build/BatchFiles'
+def BatchDir = ''
 
 /* Return UBT */
 def UBT	= "\"${BatchDir}/Build.${ScriptInvocationType}\""
@@ -65,6 +65,8 @@ def Initialise(String projectName, String engineDir, String projectDir = "", Str
 	ProjectFile     = "\"${ProjectDir}/${ProjectName}.uproject\""
 
 	DefaultArguments = defaultArguments
+	
+	BatchDir = isUnix() ? '${EngineDir}/Engine/Build/BatchFiles/Linux' : '${EngineDir}/Engine/Build/BatchFiles'
 }
 
 /* Generate Project files for the initialised project */

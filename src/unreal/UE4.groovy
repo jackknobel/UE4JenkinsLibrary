@@ -21,7 +21,7 @@ def ProjectName = ''
 def ProjectDir	= ''
 def ProjectFile	= ''
 
-String ScriptInvocationType = isUnix() ? "bat" : "sh"
+def ScriptInvocationType = isUnix() ? bat : sh
 
 /* Return BatchFiles Dir */
 def BatchDir = isUnix() ? "${EngineDir}/Engine/Build/BatchFiles/Linux" : "${EngineDir}/Engine/Build/BatchFiles"
@@ -81,7 +81,7 @@ def GenerateProjectFiles()
  */ 
 def Compile(String target, BuildConfiguration buildConfiguration, String platform = "Win64", String additionalArguments = "")
 {
-	${ScriptInvocationType} GetUBT() + " ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
+	${ScriptInvocationType} + GetUBT() + " ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
 }
 
 /** 

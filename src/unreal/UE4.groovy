@@ -21,7 +21,7 @@ def ProjectName = ''
 def ProjectDir	= ''
 def ProjectFile	= ''
 
-String ScriptInvocationType = isUnix() ? bat : sh
+String ScriptInvocationType = isUnix() ? "bat" : "sh"
 
 /* Return BatchFiles Dir */
 def BatchDir = isUnix() ? "${EngineDir}/Engine/Build/BatchFiles/Linux" : "${EngineDir}/Engine/Build/BatchFiles"

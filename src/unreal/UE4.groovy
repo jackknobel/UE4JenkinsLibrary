@@ -21,7 +21,7 @@ def ProjectName = ''
 def ProjectDir	= ''
 def ProjectFile	= ''
 
-def ScriptInvocationType = isUnix() ? bat : sh
+String ScriptInvocationType = isUnix() ? bat : sh
 
 /* Return BatchFiles Dir */
 def GetBatchDir()
@@ -43,7 +43,6 @@ def GetBatchDir()
 def GetUBT()
 {
 	return "\"${GetBatchDir}/Build.${ScriptInvocationType}\""
-
 }
 
 /* Return UAT */

@@ -21,22 +21,41 @@ def ProjectName = ''
 def ProjectDir	= ''
 def ProjectFile	= ''
 
+def ScriptInvocationType = isUnix() ? bat : sh
+
+/* Return BatchFiles Dir */
+def GetBatchDir()
+{
+	def Output = null
+	if(isUnix())
+	{
+		Output = "${EngineDir}/Engine/Build/BatchFiles/Linux"
+	}
+	else
+	{
+		Output = "${EngineDir}/Engine/Build/BatchFiles"
+	}
+	
+	return Output;
+}
+
 /* Return UBT Directory */
-def GetUBTDirectory()
+def GetUBT()
 {
-	return "\"${EngineDir}/Engine/Build/BatchFiles/Build.bat\""
+	return "\"${GetBatchDir}/Build.${ScriptInvocationType}\""
+
 }
 
-/* Return UAT Directory */
-def GetUATDirectory()
+/* Return UAT */
+def GetUAT()
 {
-	return "\"${EngineDir}/Engine/Build/BatchFiles/RunUAT.bat\""
+	return "\"${GetBatchDir}/RunUAT.${ScriptInvocationType}\""
 }
 
-/* Return the editor CMD Directory */
-def GetCMDDirectory()
+/* Return the editor CMD */
+def GetCMD()
 {
-	return "\"${EngineDir}/Engine/Binaries/Win64/UE4Editor-Cmd.exe\""
+	return "\"${EngineDir}/Engine/Binaries/Win64/UE4Editor-Cmd.exe\""	
 }
 
 /* Arguments to pass to all commands. e.g -BuildMachine */
@@ -64,7 +83,7 @@ def Initialise(String projectName, String engineDir, String projectDir = "", Str
 /* Generate Project files for the initialised project */
 def GenerateProjectFiles()
 {
-	bat "\"${EngineDir}/Engine/Build/BatchFiles/GenerateProjectFiles.bat\" -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
+	${ScriptInvocationType} "${GetBatchDir}/GenerateProjectFiles.${ScriptInvocationType}" -projectfiles -project=${ProjectFile} -game -engine -progress ${DefaultArguments}"
 }
 
 /** 
@@ -76,7 +95,7 @@ def GenerateProjectFiles()
  */ 
 def Compile(String target, BuildConfiguration buildConfiguration, String platform = "Win64", String additionalArguments = "")
 {
-	bat GetUBTDirectory() + " ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
+	${ScriptInvocationType} GetUBT() + " ${target} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
 }
 
 /** 
@@ -93,7 +112,7 @@ def CompileProject(BuildConfiguration buildConfiguration, boolean editor = true,
 	{
 		projectTarget += "Editor"
 	}
-	bat GetUBTDirectory() + " ${projectTarget} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
+	${ScriptInvocationType} GetUBT() + " ${projectTarget} ${ProjectFile} ${platform} " +  buildConfiguration.name() + " ${additionalArguments} ${DefaultArguments}"
 }
 
 def RunBuildGraph(String scriptPath, String target, def parameters, String additionalArguments = "")
@@ -104,7 +123,7 @@ def RunBuildGraph(String scriptPath, String target, def parameters, String addit
 		parameter -> parsedParams += "-set:${parameter.key}=\"${parameter.value}\" "
 	}
 
-	bat GetUATDirectory() + " BuildGraph -Script=\"${scriptPath}\" -target=\"${target}\" -set:ProjectName=${ProjectName} -set:UProject=${ProjectFile} ${parsedParams} ${additionalArguments} ${DefaultArguments}"
+	${ScriptInvocationType} GetUAT() + " BuildGraph -Script=\"${scriptPath}\" -target=\"${target}\" -set:ProjectName=${ProjectName} -set:UProject=${ProjectFile} ${parsedParams} ${additionalArguments} ${DefaultArguments}"
 }
 
 /** 
@@ -116,7 +135,7 @@ def RunBuildGraph(String scriptPath, String target, def parameters, String addit
  */ 
 def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", boolean iterative = true, String additionalArguments = "-fileopenlog")
 {
-	 bat GetCMDDirectory() + " ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments} ${DefaultArguments}" + (iterative ? " -iterate -iterateshash" : "")
+	 ${ScriptInvocationType} GetCMD() + " ${ProjectFile} -run=Cook -targetplatform=${platforms} -map=${mapsToCook} ${additionalArguments} ${DefaultArguments}" + (iterative ? " -iterate -iterateshash" : "")
 }
 
 /** 
@@ -131,7 +150,7 @@ def CookProject(String platforms = "WindowsNoEditor", String mapsToCook = "", bo
  */ 
 def PackageProject(String platform, BuildConfiguration buildConfiguration, String stagingDir, boolean usePak = true, boolean iterative = true, String cmdlineArguments = "", String additionalArguments = "")
 {
-	bat GetUATDirectory() + " BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + " -StagingDirectory=\"${stagingDir}\"" + (usePak ? " -pak " : " ") + " -cmdline=\"${cmdlineArguments}\" " + "${additionalArguments} ${DefaultArguments}" 
+	${ScriptInvocationType} GetUAT() + " BuildCookRun -project=${ProjectFile} -platform=${platform} -skipcook -skipbuild -nocompileeditor -NoSubmit -stage -package -clientconfig=" + buildConfiguration.name() + " -StagingDirectory=\"${stagingDir}\"" + (usePak ? " -pak " : " ") + " -cmdline=\"${cmdlineArguments}\" " + "${additionalArguments} ${DefaultArguments}" 
 }
 
 /**
@@ -153,7 +172,7 @@ def PackageAndDeployProject(String platform, BuildConfiguration buildConfigurati
 /* Build the project's DDC, recommend to use in combation with a shared DDC https://docs.unrealengine.com/en-us/Engine/Basics/DerivedDataCache */
 def BuildDDC()
 {
-	 bat GetCMDDirectory() + " ${ProjectFile} -run=DerivedDataCache -fill ${DefaultArguments}"
+	 ${ScriptInvocationType} GetCMD() + " ${ProjectFile} -run=DerivedDataCache -fill ${DefaultArguments}"
 }
 
 return this

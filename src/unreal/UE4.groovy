@@ -22,7 +22,7 @@ def ProjectDir	= ''
 def ProjectFile	= ''
 
 /* Return BatchFiles Dir */
-def BatchDir = isUnix() ? "${EngineDir}/Engine/Build/BatchFiles/Linux" : "${EngineDir}/Engine/Build/BatchFiles"
+String BatchDir = isUnix() ? "${EngineDir}/Engine/Build/BatchFiles/Linux" : "${EngineDir}/Engine/Build/BatchFiles"
 
 /* Return UBT */
 def UBT	= "\"${BatchDir}/Build.${ScriptInvocationType}\""

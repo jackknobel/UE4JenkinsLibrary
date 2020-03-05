@@ -29,7 +29,7 @@ def ScriptInvocationType = ''
 def UBT	= "\"${BatchDir}/Build.${ScriptInvocationType}\""
 
 /* Return UAT */
-def UAT = "\"${BatchDir}/RunUAT.${ScriptInvocationType}\""
+def UAT = "\"{EngineDir}/Engine/Build/BatchFiles/RunUAT.${ScriptInvocationType}\""
 
 /* Return the editor CMD */
 def UE4_CMD = "\"${EngineDir}/Engine/Binaries/Win64/UE4Editor-Cmd.exe\""

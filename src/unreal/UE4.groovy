@@ -67,7 +67,7 @@ def Initialise(String projectName, String engineDir, String projectDir = "", Str
 
 	DefaultArguments = defaultArguments
 	
-	BatchDir = isUnix() ? '${EngineDir}/Engine/Build/BatchFiles/Linux' : '${EngineDir}/Engine/Build/BatchFiles'
+	BatchDir = isUnix() ? "${EngineDir}/Engine/Build/BatchFiles/Linux" : "${EngineDir}/Engine/Build/BatchFiles"
 	ScriptInvocationType = isUnix() ?  "sh" : "bat"
 }
 

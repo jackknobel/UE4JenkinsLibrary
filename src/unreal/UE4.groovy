@@ -72,7 +72,7 @@ def Initialise(String projectName, String engineDir, String projectDir = "", Str
 	
 	UBT	= "\"${BatchDir}/Build.${ScriptInvocationType}\""
 
-	UAT = "\"{EngineDir}/Engine/Build/BatchFiles/RunUAT.${ScriptInvocationType}\""
+	UAT = "\"${EngineDir}/Engine/Build/BatchFiles/RunUAT.${ScriptInvocationType}\""
 
 	UE4_CMD = "\"${EngineDir}/Engine/Binaries/Win64/UE4Editor-Cmd.exe\""
 }

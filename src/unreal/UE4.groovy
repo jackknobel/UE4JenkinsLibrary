@@ -26,13 +26,13 @@ def BatchDir = ''
 def ScriptInvocationType = ''
 
 /* Return UBT */
-def UBT	= "\"${BatchDir}/Build.${ScriptInvocationType}\""
+def UBT	= ''
 
 /* Return UAT */
-def UAT = "\"{EngineDir}/Engine/Build/BatchFiles/RunUAT.${ScriptInvocationType}\""
+def UAT = ''
 
 /* Return the editor CMD */
-def UE4_CMD = "\"${EngineDir}/Engine/Binaries/Win64/UE4Editor-Cmd.exe\""
+def UE4_CMD = ''
 
 /* Arguments to pass to all commands. e.g -BuildMachine */
 def DefaultArguments = ''
@@ -69,6 +69,12 @@ def Initialise(String projectName, String engineDir, String projectDir = "", Str
 	
 	BatchDir = isUnix() ? "${EngineDir}/Engine/Build/BatchFiles/Linux" : "${EngineDir}/Engine/Build/BatchFiles"
 	ScriptInvocationType = isUnix() ?  "sh" : "bat"
+	
+	UBT	= "\"${BatchDir}/Build.${ScriptInvocationType}\""
+
+	UAT = "\"{EngineDir}/Engine/Build/BatchFiles/RunUAT.${ScriptInvocationType}\""
+
+	UE4_CMD = "\"${EngineDir}/Engine/Binaries/Win64/UE4Editor-Cmd.exe\""
 }
 
 /* Runs Setup.bat */

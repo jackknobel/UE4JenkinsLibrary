@@ -71,6 +71,12 @@ def Initialise(String projectName, String engineDir, String projectDir = "", Str
 	ScriptInvocationType = isUnix() ?  "sh" : "bat"
 }
 
+/* Runs Setup.bat */
+def Setup()
+{
+	RunCommand("\"${EngineDir}/Setup.${ScriptInvocationType}\" --force")
+}
+
 /* Generate Project files for the initialised project */
 def GenerateProjectFiles()
 {

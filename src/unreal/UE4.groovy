@@ -41,11 +41,11 @@ def RunCommand(def Command)
 {
 	if(isUnix())
 	{
-		sh(script: Command, returnStdout: true)
+		sh(script: Command)
 	}
 	else
 	{
-		bat(script: Command, returnStdout: true)
+		bat(script: Command)
 	}
 }
 
